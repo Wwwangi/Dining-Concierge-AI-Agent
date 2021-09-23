@@ -53,7 +53,7 @@ apigClientFactory.newClient = function (config) {
 
 
     // extract endpoint and path from url
-    var invokeUrl = 'https://abc123.execute-api.us-east-1.amazonaws.com/v1';
+    var invokeUrl = 'https://w8ldkoizc1.execute-api.us-east-1.amazonaws.com/beta';
     var endpoint = /(^https?:\/\/[^\/]+)/g.exec(invokeUrl)[1];
     var pathComponent = invokeUrl.substring(endpoint.length);
 
@@ -88,7 +88,7 @@ apigClientFactory.newClient = function (config) {
 
         apiGateway.core.utils.assertParametersDefined(params, ['body'], ['body']);
 
-        var nluPostRequest = {
+        var chatbotPostRequest = {
             verb: 'post'.toUpperCase(),
             path: pathComponent + uritemplate('/chatbot').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
@@ -97,25 +97,7 @@ apigClientFactory.newClient = function (config) {
         };
 
 
-        return apiGatewayClient.makeRequest(nluPostRequest, authType, additionalParams, config.apiKey);
-    };
-
-
-    apigClient.chatbotOptions = function (params, body, additionalParams) {
-        if(additionalParams === undefined) { additionalParams = {}; }
-
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
-
-        var nluOptionsRequest = {
-            verb: 'options'.toUpperCase(),
-            path: pathComponent + uritemplate('/chatbot').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
-            body: body
-        };
-
-
-        return apiGatewayClient.makeRequest(nluOptionsRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(chatbotPostRequest, authType, additionalParams, config.apiKey);
     };
 
 
