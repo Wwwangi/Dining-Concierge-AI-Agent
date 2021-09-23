@@ -4,6 +4,10 @@ Mixins
 /*--------------------
 Body
 --------------------*/
+::-webkit-scrollbar{
+display: none;
+}
+
 *,
 *::before,
 *::after {
@@ -96,6 +100,7 @@ Messages
   width: 100%;
 }
 .messages .message {
+  font-family:"Comic Sans MS";
   clear: both;
   float: left;
   padding: 6px 10px 7px;
@@ -238,10 +243,12 @@ Message Box
       -ms-flex: 0 1 40px;
           flex: 0 1 40px;
   width: 100%;
-  background: #000;
+  background: #383c3c;
+  border-radius: 25px;
   padding: 10px;
 }
 .message-box .message-input {
+  font-family:"Comic Sans MS";
   background: none;
   border: none;
   outline: none !important;
