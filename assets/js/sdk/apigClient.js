@@ -40,7 +40,7 @@ apigClientFactory.newClient = function (config) {
         config.sessionToken = '';
     }
     if(config.region === undefined) {
-        config.region = 'us-east-2';
+        config.region = 'us-east-1';
     }
     //If defaultContentType is not defined then default to application/json
     if(config.defaultContentType === undefined) {
