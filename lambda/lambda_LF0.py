@@ -19,9 +19,10 @@ def lambda_handler(event, context):
 
     # Get the user message
     message = curr_utterance[0]['unstructured']['text']
+    userId = curr_utterance[0]['unstructured']['id']
 
     # To pass the message to lex bot (v1) and get bot response
-    response = lex_bot.post_text(botName='DiningRecommendation',botAlias='Prod',userId='user01',inputText=message)
+    response = lex_bot.post_text(botName='DiningRecommendation',botAlias='Prod',userId=userId,inputText=message)
 
     if response['message'] and len(response['message']) != 0:
         botMessage = response['message']
