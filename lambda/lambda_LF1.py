@@ -159,7 +159,6 @@ def recommendation_intent(intent_request):
 def SQSRequest(requestData):
     sqs = boto3.client('sqs')
     queue_url = 'https://sqs.us-east-1.amazonaws.com/964889031791/user_preference.fifo'
-    delaySeconds = 5
     messageAttributes = {
         'cuisine': {
             'DataType': 'String',
@@ -191,9 +190,10 @@ def SQSRequest(requestData):
 
     response = sqs.send_message(
         QueueUrl = queue_url,
-        DelaySeconds = delaySeconds,
         MessageAttributes = messageAttributes,
-        MessageBody = messageBody
+        MessageBody = messageBody,
+        MessageDeduplicationId = 'messagededuplicationId1',
+        MessageGroupId = 'messagegroupid1'
         )
 
     return response['MessageId']
