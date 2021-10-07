@@ -157,25 +157,25 @@ def SQSRequest(requestData):
     sqs = boto3.client('sqs')
     queue_url = 'https://sqs.us-east-1.amazonaws.com/964889031791/user_preference.fifo'
     messageAttributes = {
+        'location': {
+                'DataType': 'String',
+                'StringValue': requestData['location']
+            },
         'cuisine': {
             'DataType': 'String',
             'StringValue': requestData['cuisine']
         },
-        'location': {
-            'DataType': 'String',
-            'StringValue': requestData['location']
-        },
-        "time": {
-            'DataType': "String",
-            'StringValue': requestData['time']
+        'people': {
+            'DataType': 'Number',
+            'StringValue': requestData['people']
         },
         "date": {
             'DataType': "String",
             'StringValue': requestData['date']
         },
-        'people': {
-            'DataType': 'Number',
-            'StringValue': requestData['people']
+        "time": {
+            'DataType': "String",
+            'StringValue': requestData['time']
         },
         'phone': {
             'DataType' : 'String',
