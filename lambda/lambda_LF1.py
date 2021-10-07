@@ -1,12 +1,9 @@
 import json
 import os
-import math
-import dateutil.parser
-import datetime
 import time
+import dateutil
+import datetime
 import boto3
-from botocore.vendored import requests
-import string
 
 # Validate the user input
 # ----------------------------------------------------------------------------------------------------------------------
