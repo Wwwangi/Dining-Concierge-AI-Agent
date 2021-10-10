@@ -1,24 +1,31 @@
 import json
 import boto3
 from requests_aws4auth import AWS4Auth
-import requests
+from opensearchpy import OpenSearch, RequestsHttpConnection
 
 # connect to sqs
 queue_url = 'https://sqs.us-east-1.amazonaws.com/964889031791/user_preference.fifo'
 sqs = boto3.client('sqs',region_name='us-east-1')
 
 # connect to opensearch
-host = 'search-restaurants-info-f67f3abjypdkhfywfpqjxle2ya.us-east-1.es.amazonaws.com'
+host = 'search-restaurants-yelp-i3ylr4bj5k5bcwzutigrub775e.us-east-1.es.amazonaws.com'
 region = 'us-east-1'
-index = 'restaurants-info'
-url = host + index
+
 service = 'es'
 credentials = boto3.Session().get_credentials()
 awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)
 
+os = OpenSearch(
+    hosts = [{'host': host, 'port': 443}],
+    http_auth = awsauth,
+    use_ssl = True,
+    verify_certs = True,
+    connection_class = RequestsHttpConnection
+)
+
 def opensearch(cuisine):
     print('enter opensearch')
-    businesses = requests.put(url, auth=awsauth, json={"query": {"match": {'categories.title':cuisine}}})
+    businesses = os.search(index = 'restaurants-yelp', body={"query": {"match": {'categories.title':cuisine}}})
     print(businesses)
     return businesses['hits']['hits']
 

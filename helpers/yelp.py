@@ -15,12 +15,13 @@ headers = {
 # Number of business results to return
 limit = 50
 # to get the next page of results
-offset = 20
+offset = 5
 
 
 # Get businesses information from yelp api
 businesses = []
-cuisines = ['chinese','indian','thai','american','mexican','brunch','japanese','italian']
+#cuisines = ['chinese','indian','thai','american','mexican','brunch','japanese','italian']
+cuisines = ['chinese']
 for cuisine in cuisines:
     print(cuisine)
     for count in range(offset):
@@ -76,7 +77,7 @@ for business in businesses:
 
 
 # Connect to the OpenSearch Service
-host = 'search-restaurants-info-f67f3abjypdkhfywfpqjxle2ya.us-east-1.es.amazonaws.com'
+host = 'search-restaurants-yelp-i3ylr4bj5k5bcwzutigrub775e.us-east-1.es.amazonaws.com'
 region = 'us-east-1'
 
 service = 'es'
@@ -91,11 +92,16 @@ search = OpenSearch(
     connection_class = RequestsHttpConnection
 )
 
+count = 1
 for business in businesses:
+    count+=1
+    if count%100==0:
+        print(count)
+        print(business)
     document = {
         'id': business['id'],
         'categories': business['categories']
     }
-    search.index(index="restaurants-info", doc_type="restaurant-info", id=business['id'], body=document)
+    search.index(index="restaurants-yelp", doc_type="restaurants-yelp", id=business['id'], body=document)
 
 
