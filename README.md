@@ -25,3 +25,6 @@ Chi, Wu (cw3326)
    (3) lambda function 2: used to retrieve recommendated restaurants information from Opensearch and DynamoDB, send data to SNS
 8. SMS used to send recommendation results to users
 
+## Example Message ##
+
+![944ea0705dd5dc4db263daa703bbce5](https://user-images.githubusercontent.com/43989412/136856523-27be0a60-d70c-4eef-8718-b902248abbd7.jpg)
