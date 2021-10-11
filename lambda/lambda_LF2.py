@@ -2,6 +2,7 @@ import json
 import boto3
 from requests_aws4auth import AWS4Auth
 from opensearchpy import OpenSearch, RequestsHttpConnection
+from random import shuffle
 
 # connect to sqs
 queue_url = 'https://sqs.us-east-1.amazonaws.com/964889031791/user_preference.fifo'
@@ -25,12 +26,13 @@ os = OpenSearch(
 
 def opensearch(cuisine):
     print('enter opensearch')
-    businesses = os.search(index = 'restaurants-yelp', body={"query": {"match": {'categories.title':cuisine}}})
-    print(businesses)
+    businesses = os.search(size = 100, index = 'restaurants-yelp', body={"query": {"match": {'categories.title':cuisine}}})
+    print(businesses['hits']['hits'])
     return businesses['hits']['hits']
 
 
 def business_details(ids, cuisine, people, date, time):
+    print('enter dynamodb')
     dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
     table = dynamodb.Table('yelp-restaurants')
     res = 'Hi! Thanks for your patience! Here are my {} suggestions for {} people, for {} at {}: \n '.format(cuisine, people, date, time)
@@ -43,13 +45,16 @@ def business_details(ids, cuisine, people, date, time):
                 'id': id
             }
         )
+        print(response)
         item = response['Item']
         name = item['name']
-        address = item['address']
+        address = ' '.join(item['address'])
         rating = str(item['rating'])
         zipcode = item['zip_code']
-        res += "{}. {}, located at {}.\n Enjoy your meal! \n".format(i, name, address)
+        res += "{}. {}, located at {}.\n".format(i, name, address)
         i += 1
+    res += 'Enjoy your meal! '
+    print(res)
     return res
 
 
@@ -87,14 +92,17 @@ def lambda_handler(event, context):
         people = attributes['people']['StringValue']
         date = attributes['date']['StringValue']
         time = attributes['time']['StringValue']
+        print(cuisine,phone,people,date,time)
         ids = opensearch(cuisine)
         ids = list(map(lambda x: x['_id'], ids))
-        print(ids)
+        shuffle(ids)
+        print(len(ids))
         details = business_details(ids, cuisine, people, date, time)
         send_sns("+1" + phone, details)
         sqs.delete_message(
                 QueueUrl=queue_url,
                 ReceiptHandle=receipt_handle
             )
+        print('delete successfully')
     except Exception as e:
         print(e)

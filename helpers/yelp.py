@@ -20,8 +20,7 @@ offset = 5
 
 # Get businesses information from yelp api
 businesses = []
-#cuisines = ['chinese','indian','thai','american','mexican','brunch','japanese','italian']
-cuisines = ['chinese']
+cuisines = ['chinese','indian','thai','american','mexican','brunch','japanese','italian']
 for cuisine in cuisines:
     print(cuisine)
     for count in range(offset):

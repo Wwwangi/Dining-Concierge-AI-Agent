@@ -184,6 +184,7 @@ def SQSRequest(requestData):
     }
 
     messageBody=('Dining Recommendation')
+    print(messageAttributes)
 
     response = sqs.send_message(
         QueueUrl = queue_url,
@@ -192,6 +193,7 @@ def SQSRequest(requestData):
         MessageDeduplicationId = 'messagededuplicationId1',
         MessageGroupId = 'messagegroupid1'
         )
+    print(response)
 
     return response['MessageId']
 
