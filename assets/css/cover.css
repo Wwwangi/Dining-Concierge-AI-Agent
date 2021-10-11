@@ -63,6 +63,7 @@ body {
  * Header
  */
 .masthead-brand {
+  font-family:"Comic Sans MS";
   margin-top: 10px;
   margin-bottom: 10px;
 }
