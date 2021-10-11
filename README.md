@@ -7,7 +7,7 @@ The website url is: http://dining.ai.agent.s3-website-us-east-1.amazonaws.com/
 
 ## Author ##
 Wanqi, Wu (ww2578)
-Chi, Wu ()
+Chi, Wu (cw3326)
 
 ## Services ##
 
