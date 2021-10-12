@@ -136,7 +136,7 @@ def validate_suggest_restaurant(slot):
             return build_validation_result(False, 'people', 'Please enter a number.')
         
         if int(people) > 30 or int(people) < 1:
-            return build_validation_result(False, 'people', 'Your number {} is invalid. Please enter a number between 1 and 30'.format(ppl))
+            return build_validation_result(False, 'people', 'Your number {} is invalid. Please enter a number between 1 and 30'.format(people))
 
     return build_validation_result(True, None, None)
 
